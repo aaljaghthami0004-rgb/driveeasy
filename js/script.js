@@ -1,10 +1,13 @@
 /* =========================================================
-   DriveEasy Car Rental - external JavaScript file
+   DriveEasy Car Rental - external JavaScript file (ASP.NET version)
+   The page ids are the same as the HTML version because Web.config
+   uses clientIDMode="Static". The forms are posted to the server only
+   when the JavaScript validation is OK; the server checks the data again.
    Contents:
      1. Helper functions
      2. Common parts (all pages)
      3. Home page   - slideshow (dynamic picture & text)
-     4. Cars page   - search, filter and sort
+     4. Cars page   - search is done on the server (SQL)
      5. Booking     - price calculation + form validation
      6. Contact     - feedback validation + dynamic list
      7. Login       - validation + show password
@@ -76,9 +79,9 @@ function setGroupError(errorId, message) {
     return message === "";
 }
 
-// returns the value of the checked radio button in a group, or ""
-function getCheckedValue(name) {
-    var radios = document.getElementsByName(name);
+// returns the value of the checked radio button inside a RadioButtonList, or ""
+function getCheckedValue(listId) {
+    var radios = document.querySelectorAll("#" + listId + " input[type=radio]");
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             return radios[i].value;
@@ -86,6 +89,8 @@ function getCheckedValue(name) {
     }
     return "";
 }
+
+
 
 // removes a group error as soon as the user picks an option
 function clearGroupErrorOnChange(inputs, errorId) {
@@ -95,29 +100,6 @@ function clearGroupErrorOnChange(inputs, errorId) {
                 setGroupError(errorId, "");
             }
         });
-    }
-}
-
-// creates a message box (success) and puts it inside a container
-function showMessage(containerId, text) {
-    var container = byId(containerId);
-    container.innerHTML = "";
-    var box = document.createElement("div");
-    box.className = "success-box";
-    box.textContent = text;
-    container.appendChild(box);
-}
-
-// removes the red / green style from all fields of a form
-function resetFieldStyles(form) {
-    var fields = form.querySelectorAll("input, select, textarea");
-    for (var i = 0; i < fields.length; i++) {
-        fields[i].classList.remove("invalid");
-        fields[i].classList.remove("valid");
-    }
-    var errors = form.querySelectorAll(".error-msg");
-    for (var j = 0; j < errors.length; j++) {
-        errors[j].innerHTML = "";
     }
 }
 
@@ -144,7 +126,7 @@ function setFooterYear() {
 function highlightCurrentPage() {
     var page = window.location.pathname.split("/").pop();
     if (page === "") {
-        page = "index.html";
+        page = "Default.aspx";
     }
     var links = document.querySelectorAll(".main-menu > ul > li > a");
     for (var i = 0; i < links.length; i++) {
@@ -313,92 +295,8 @@ function initSlideshow() {
 }
 
 
-/* ---------- 4. Cars page: search, filter and sort ---------- */
-
-var sortAscending = true;
-
-function filterCars() {
-    var search = byId("searchBox").value.trim().toLowerCase();
-    var category = byId("categoryFilter").value;
-    var maxPrice = parseInt(byId("maxPrice").value, 10);
-    byId("maxPriceValue").innerHTML = maxPrice;
-
-    var rows = byId("carsTable").tBodies[0].rows;
-    var shown = 0;
-
-    for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        if (row.id === "noResultRow") {
-            continue;
-        }
-        var name = row.cells[1].textContent.toLowerCase();
-        var rowCategory = row.getAttribute("data-category");
-        var price = parseInt(row.getAttribute("data-price"), 10);
-
-        var matchName = name.indexOf(search) !== -1;
-        var matchCategory = (category === "all" || category === rowCategory);
-        var matchPrice = price <= maxPrice;
-
-        if (matchName && matchCategory && matchPrice) {
-            row.style.display = "";
-            shown++;
-        } else {
-            row.style.display = "none";
-        }
-    }
-
-    byId("resultCount").innerHTML = shown;
-    showNoResultRow(shown === 0);
-}
-
-// adds or removes a row that says "no cars found"
-function showNoResultRow(show) {
-    var tbody = byId("carsTable").tBodies[0];
-    var oldRow = byId("noResultRow");
-    if (show && !oldRow) {
-        var row = document.createElement("tr");
-        row.id = "noResultRow";
-        var cell = document.createElement("td");
-        cell.colSpan = 6;
-        cell.style.textAlign = "center";
-        cell.style.color = "#c0392b";
-        cell.textContent = "No cars match your search. Try another name or a higher price.";
-        row.appendChild(cell);
-        tbody.appendChild(row);
-    } else if (!show && oldRow) {
-        tbody.removeChild(oldRow);
-    }
-}
-
-function sortCarsByPrice() {
-    var tbody = byId("carsTable").tBodies[0];
-    var rows = [];
-    for (var i = 0; i < tbody.rows.length; i++) {
-        if (tbody.rows[i].id !== "noResultRow") {
-            rows.push(tbody.rows[i]);
-        }
-    }
-    rows.sort(function (a, b) {
-        var diff = parseInt(a.getAttribute("data-price"), 10) - parseInt(b.getAttribute("data-price"), 10);
-        return sortAscending ? diff : -diff;
-    });
-    for (var j = 0; j < rows.length; j++) {
-        tbody.appendChild(rows[j]);   // appendChild moves the row to the end
-    }
-    byId("sortPrice").innerHTML = sortAscending ? "Sort by price &#8595;" : "Sort by price &#8593;";
-    sortAscending = !sortAscending;
-}
-
-function initCarsPage() {
-    if (!byId("carsTable") || !byId("searchBox")) {
-        return;
-    }
-    byId("searchBox").addEventListener("keyup", filterCars);
-    byId("categoryFilter").addEventListener("change", filterCars);
-    byId("maxPrice").addEventListener("input", filterCars);
-    byId("sortPrice").addEventListener("click", sortCarsByPrice);
-    filterCars();
-}
+/* ---------- 4. Cars page ----------
+   The search on the Cars page is done on the server with SQL (Cars.aspx.cs). */
 
 
 /* ---------- 5. Booking page: price calculation + validation ---------- */
@@ -431,15 +329,21 @@ function calculateTotal() {
 
     var pricePerDay = carPrices[car];
     var total = pricePerDay * days;
-    addSummaryLine(list, car + ": " + pricePerDay + " SAR x " + days + " day(s) = " + (pricePerDay * days) + " SAR");
+    var carSelect = byId("car");
+    var carName = carSelect.options[carSelect.selectedIndex].text.split(" (")[0];
+    addSummaryLine(list, carName + ": " + pricePerDay + " SAR x " + days + " day(s) = " + (pricePerDay * days) + " SAR");
 
     // add the price of every checked extra
-    var extras = document.getElementsByName("extras");
+    var extras = [
+        { id: "extraGps", name: "GPS", price: 20 },
+        { id: "extraSeat", name: "Child Seat", price: 15 },
+        { id: "extraInsurance", name: "Full Insurance", price: 40 }
+    ];
     for (var i = 0; i < extras.length; i++) {
-        if (extras[i].checked) {
-            var extraPrice = parseInt(extras[i].getAttribute("data-price"), 10) * days;
+        if (byId(extras[i].id).checked) {
+            var extraPrice = extras[i].price * days;
             total += extraPrice;
-            addSummaryLine(list, extras[i].value + ": " + extraPrice + " SAR");
+            addSummaryLine(list, extras[i].name + ": " + extraPrice + " SAR");
         }
     }
 
@@ -516,26 +420,9 @@ function validateBookingForm() {
 }
 
 function initBookingPage() {
-    var form = byId("bookingForm");
-    if (!form || typeof carPrices === "undefined") {
+    var button = byId("btnBook");
+    if (!button || typeof carPrices === "undefined") {
         return;
-    }
-
-    // dates cannot be before today
-    var today = formatDate(new Date());
-    byId("pickupDate").min = today;
-    byId("returnDate").min = today;
-
-    // if the user came from "Book this car", select that car
-    var params = new URLSearchParams(window.location.search);
-    var carFromLink = params.get("car");
-    if (carFromLink) {
-        var options = byId("car").options;
-        for (var i = 0; i < options.length; i++) {
-            if (options[i].value === carFromLink) {
-                byId("car").selectedIndex = i;
-            }
-        }
     }
 
     // check every field when the user leaves it or changes it
@@ -548,7 +435,7 @@ function initBookingPage() {
             validateBookingField(this);
         });
     }
-    clearGroupErrorOnChange(document.getElementsByName("payment"), "paymentError");
+    clearGroupErrorOnChange(document.querySelectorAll("#payment input"), "paymentError");
     clearGroupErrorOnChange([byId("terms")], "termsError");
 
     // update the price when something changes
@@ -560,24 +447,12 @@ function initBookingPage() {
         byId("returnDate").min = this.value;
     });
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        if (validateBookingForm()) {
-            var total = calculateTotal();
-            var reference = "DE-" + Math.floor(100000 + Math.random() * 900000);
-            showMessage("bookingMessage", "Thank you " + byId("fullName").value.trim() +
-                "! Your booking is confirmed. Reference number: " + reference +
-                ". Total price: " + total + " SAR.");
+    // the form is sent to the server only when everything is correct
+    button.addEventListener("click", function (event) {
+        if (!validateBookingForm()) {
+            event.preventDefault();
             window.scrollTo(0, 0);
-        } else {
-            byId("bookingMessage").innerHTML = "";
         }
-    });
-
-    form.addEventListener("reset", function () {
-        resetFieldStyles(form);
-        byId("bookingMessage").innerHTML = "";
-        setTimeout(calculateTotal, 0);   // wait until the form is cleared
     });
 
     calculateTotal();
@@ -585,8 +460,6 @@ function initBookingPage() {
 
 
 /* ---------- 6. Contact page: feedback ---------- */
-
-var ratingNames = { "5": "Excellent", "4": "Good", "3": "Average", "2": "Poor" };
 
 function updateCharCounter() {
     var message = byId("fbMessage");
@@ -622,8 +495,8 @@ function validateFeedbackField(input) {
 }
 
 function initContactPage() {
-    var form = byId("feedbackForm");
-    if (!form) {
+    var button = byId("btnSend");
+    if (!button) {
         return;
     }
     var ids = ["fbName", "fbEmail", "fbSubject", "fbMessage"];
@@ -636,43 +509,24 @@ function initContactPage() {
     byId("fbSubject").addEventListener("change", function () {
         validateFeedbackField(this);
     });
-    clearGroupErrorOnChange(document.getElementsByName("rating"), "ratingError");
+    clearGroupErrorOnChange(document.querySelectorAll("#rating input"), "ratingError");
+    updateCharCounter();
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
+    button.addEventListener("click", function (event) {
         var valid = true;
         for (var j = 0; j < ids.length; j++) {
             if (!validateFeedbackField(byId(ids[j]))) {
                 valid = false;
             }
         }
-        var rating = getCheckedValue("rating");
-        if (rating === "") {
+        if (getCheckedValue("rating") === "") {
             valid = setGroupError("ratingError", "Please choose a rating.") && valid;
         } else {
             setGroupError("ratingError", "");
         }
         if (!valid) {
-            return;
+            event.preventDefault();
         }
-
-        // dynamic element: add the new feedback to the top of the list
-        var item = document.createElement("li");
-        var nameTag = document.createElement("strong");
-        nameTag.textContent = byId("fbName").value.trim();
-        item.appendChild(nameTag);
-        item.appendChild(document.createTextNode(" (" + ratingNames[rating] + "): " + byId("fbMessage").value.trim()));
-        item.style.backgroundColor = "#fff3e6";
-        var list = byId("feedbackList");
-        list.insertBefore(item, list.firstChild);
-
-        showMessage("feedbackMessage", "Thank you! Your feedback was sent successfully.");
-        form.reset();
-    });
-
-    form.addEventListener("reset", function () {
-        resetFieldStyles(form);
-        setTimeout(updateCharCounter, 0);
     });
 }
 
@@ -680,16 +534,15 @@ function initContactPage() {
 /* ---------- 7. Login page ---------- */
 
 function initLoginPage() {
-    var form = byId("loginForm");
-    if (!form) {
+    var button = byId("btnLogin");
+    if (!button) {
         return;
     }
     byId("showPassword").addEventListener("change", function () {
         byId("loginPassword").type = this.checked ? "text" : "password";
     });
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
+    button.addEventListener("click", function (event) {
         var user = byId("loginUser");
         var pass = byId("loginPassword");
         var valid = true;
@@ -704,17 +557,12 @@ function initLoginPage() {
 
         if (isEmpty(pass.value)) {
             valid = showError(pass, "Please enter your password.") && valid;
-        } else if (pass.value.length < 8) {
-            valid = showError(pass, "Password must be at least 8 characters.") && valid;
         } else {
             clearError(pass);
         }
 
-        if (valid) {
-            showMessage("loginMessage", "Welcome back, " + user.value.trim() + "! Taking you to the home page...");
-            setTimeout(function () {
-                window.location.href = "index.html";
-            }, 2000);
+        if (!valid) {
+            event.preventDefault();
         }
     });
 }
@@ -805,8 +653,8 @@ function getAge(birthText) {
 }
 
 function initSignupPage() {
-    var form = byId("signupForm");
-    if (!form) {
+    var button = byId("btnSignup");
+    if (!button) {
         return;
     }
     var ids = ["suName", "suEmail", "suPhone", "suBirth", "suCity", "suUser", "suPassword", "suConfirm"];
@@ -822,11 +670,10 @@ function initSignupPage() {
     byId("suBirth").addEventListener("change", function () {
         validateSignupField(this);
     });
-    clearGroupErrorOnChange(document.getElementsByName("gender"), "genderError");
+    clearGroupErrorOnChange(document.querySelectorAll("#gender input"), "genderError");
     clearGroupErrorOnChange([byId("suTerms")], "suTermsError");
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
+    button.addEventListener("click", function (event) {
         var valid = true;
         for (var j = 0; j < ids.length; j++) {
             if (!validateSignupField(byId(ids[j]))) {
@@ -843,20 +690,9 @@ function initSignupPage() {
         } else {
             setGroupError("suTermsError", "");
         }
-
-        if (valid) {
-            showMessage("signupMessage", "Your account was created successfully, " +
-                byId("suName").value.trim() + "! You can log in now.");
-            window.scrollTo(0, 0);
-            setTimeout(function () {
-                window.location.href = "login.html";
-            }, 3000);
+        if (!valid) {
+            event.preventDefault();
         }
-    });
-
-    form.addEventListener("reset", function () {
-        resetFieldStyles(form);
-        setTimeout(checkPasswordStrength, 0);
     });
 }
 
@@ -895,7 +731,6 @@ window.addEventListener("load", function () {
     createBackToTopButton();
     createTextSizeButtons();
     initSlideshow();
-    initCarsPage();
     initBookingPage();
     initContactPage();
     initLoginPage();
