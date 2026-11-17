@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DriveEasy - online car rental in Jeddah. Compare cars, check prices and book online.">
+    <meta name="author" content="Abdullah Sayed Aljaghthami, Alhasan Maan Shami">
+    <title>DriveEasy Car Rental | Our Cars</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- internal CSS (only for this page) -->
+    <style>
+        .category-section {
+            scroll-margin-top: 100px;
+        }
+        .spec-list {
+            list-style: none;
+            margin: 0 0 12px 0;
+        }
+        .spec-list li {
+            padding: 3px 0;
+            border-bottom: 1px dotted #d5dce4;
+        }
+    </style>
+</head>
+<body id="top">
+
+<!-- ===== master layout: header and main menu (same on every page) ===== -->
+<header class="site-header">
+    <div class="container header-inner">
+        <img src="images/logo.svg" alt="DriveEasy Car Rental logo" class="logo-img" width="260" height="70" usemap="#logoMap">
+        <map name="logoMap">
+            <area shape="circle" coords="35,35,24" href="about.html" alt="About DriveEasy" title="About us">
+            <area shape="rect" coords="65,10,255,60" href="about.html" alt="About DriveEasy" title="About us">
+        </map>
+
+        <nav class="main-menu" aria-label="Main menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="cars.html">Our Cars &#9662;</a>
+                    <ul class="submenu">
+                        <li><a href="cars.html#sedan">Sedan Cars</a></li>
+                        <li><a href="cars.html#suv">SUV Cars</a></li>
+                        <li><a href="cars.html#sport">Sports Cars</a></li>
+                        <li><a href="cars.html#pickup">Pickup Trucks</a></li>
+                    </ul>
+                </li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="page-title">
+    <div class="container">
+        <h1>Our Cars</h1>
+        <p style="margin:0;">Choose from economy cars, family sedans, SUVs, sports cars and pickup trucks.</p>
+    </div>
+</section>
+
+<main class="container page-section">
+
+    <nav class="on-this-page" aria-label="On this page">
+        <strong>Jump to:</strong>
+        <ul>
+            <li><a href="#all-cars">All Cars</a></li>
+            <li><a href="#sedan">Sedans</a></li>
+            <li><a href="#suv">SUVs</a></li>
+            <li><a href="#sport">Sports</a></li>
+            <li><a href="#pickup">Pickups</a></li>
+            <li><a href="#requirements">Rental Requirements</a></li>
+        </ul>
+    </nav>
+
+    <section id="all-cars">
+        <h2>All Available Cars</h2>
+
+        <table class="data-table" id="carsTable">
+            <thead>
+                <tr>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Car</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Seats</th>
+                    <th scope="col">Gear</th>
+                    <th scope="col">Price / Day</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-category="Sedan" data-price="180">
+                    <td><img src="images/toyota-camry.svg" alt="Toyota Camry"></td>
+                    <td>Toyota Camry 2025</td>
+                    <td>Sedan</td>
+                    <td>5</td>
+                    <td>Automatic</td>
+                    <td>180 SAR</td>
+                </tr>
+                <tr data-category="Sedan" data-price="120">
+                    <td><img src="images/hyundai-accent.svg" alt="Hyundai Accent"></td>
+                    <td>Hyundai Accent 2025</td>
+                    <td>Sedan</td>
+                    <td>5</td>
+                    <td>Automatic</td>
+                    <td>120 SAR</td>
+                </tr>
+                <tr data-category="SUV" data-price="450">
+                    <td><img src="images/nissan-patrol.svg" alt="Nissan Patrol"></td>
+                    <td>Nissan Patrol 2024</td>
+                    <td>SUV</td>
+                    <td>7</td>
+                    <td>Automatic</td>
+                    <td>450 SAR</td>
+                </tr>
+                <tr data-category="SUV" data-price="260">
+                    <td><img src="images/kia-sportage.svg" alt="Kia Sportage"></td>
+                    <td>Kia Sportage 2025</td>
+                    <td>SUV</td>
+                    <td>5</td>
+                    <td>Automatic</td>
+                    <td>260 SAR</td>
+                </tr>
+                <tr data-category="Sports" data-price="550">
+                    <td><img src="images/ford-mustang.svg" alt="Ford Mustang"></td>
+                    <td>Ford Mustang 2024</td>
+                    <td>Sports</td>
+                    <td>4</td>
+                    <td>Automatic</td>
+                    <td>550 SAR</td>
+                </tr>
+                <tr data-category="Pickup" data-price="220">
+                    <td><img src="images/toyota-hilux.svg" alt="Toyota Hilux"></td>
+                    <td>Toyota Hilux 2025</td>
+                    <td>Pickup</td>
+                    <td>5</td>
+                    <td>Manual</td>
+                    <td>220 SAR</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="sedan" class="category-section">
+        <h2>Sedan Cars</h2>
+        <div class="grid">
+            <div class="card car-card">
+                <span class="badge">Most Popular</span>
+                <img src="images/toyota-camry.svg" alt="Toyota Camry 2025">
+                <h3>Toyota Camry 2025</h3>
+                <ul class="spec-list">
+                    <li>5 seats &middot; Automatic</li>
+                    <li>Fuel: Petrol 2.5L</li>
+                    <li>Free 250 km per day</li>
+                </ul>
+                <p class="price">180 SAR / day</p>
+                <a href="booking.html?car=Toyota%20Camry" class="btn">Book this car</a>
+            </div>
+            <div class="card car-card">
+                <span class="badge" style="background-color:#27ae60;">Best Price</span>
+                <img src="images/hyundai-accent.svg" alt="Hyundai Accent 2025">
+                <h3>Hyundai Accent 2025</h3>
+                <ul class="spec-list">
+                    <li>5 seats &middot; Automatic</li>
+                    <li>Fuel: Petrol 1.6L</li>
+                    <li>Free 250 km per day</li>
+                </ul>
+                <p class="price">120 SAR / day</p>
+                <a href="booking.html?car=Hyundai%20Accent" class="btn">Book this car</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="suv" class="category-section">
+        <h2>SUV Cars</h2>
+        <div class="grid">
+            <div class="card car-card">
+                <span class="badge" style="background-color:#8e44ad;">7 Seats</span>
+                <img src="images/nissan-patrol.svg" alt="Nissan Patrol 2024">
+                <h3>Nissan Patrol 2024</h3>
+                <ul class="spec-list">
+                    <li>7 seats &middot; Automatic</li>
+                    <li>Fuel: Petrol 4.0L V6</li>
+                    <li>Free 300 km per day</li>
+                </ul>
+                <p class="price">450 SAR / day</p>
+                <a href="booking.html?car=Nissan%20Patrol" class="btn">Book this car</a>
+            </div>
+            <div class="card car-card">
+                <img src="images/kia-sportage.svg" alt="Kia Sportage 2025">
+                <h3>Kia Sportage 2025</h3>
+                <ul class="spec-list">
+                    <li>5 seats &middot; Automatic</li>
+                    <li>Fuel: Petrol 2.0L</li>
+                    <li>Free 250 km per day</li>
+                </ul>
+                <p class="price">260 SAR / day</p>
+                <a href="booking.html?car=Kia%20Sportage" class="btn">Book this car</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="sport" class="category-section">
+        <h2>Sports Cars</h2>
+        <div class="grid">
+            <div class="card car-card">
+                <span class="badge" style="background-color:#c0392b;">Weekend Offer</span>
+                <img src="images/ford-mustang.svg" alt="Ford Mustang 2024">
+                <h3>Ford Mustang 2024</h3>
+                <ul class="spec-list">
+                    <li>4 seats &middot; Automatic</li>
+                    <li>Fuel: Petrol 5.0L V8</li>
+                    <li>Driver must be 25 years or older</li>
+                </ul>
+                <p class="price">550 SAR / day</p>
+                <a href="booking.html?car=Ford%20Mustang" class="btn">Book this car</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="pickup" class="category-section">
+        <h2>Pickup Trucks</h2>
+        <div class="grid">
+            <div class="card car-card">
+                <img src="images/toyota-hilux.svg" alt="Toyota Hilux 2025">
+                <h3>Toyota Hilux 2025</h3>
+                <ul class="spec-list">
+                    <li>5 seats &middot; Manual</li>
+                    <li>Fuel: Diesel 2.4L</li>
+                    <li>Load: up to 1 ton</li>
+                </ul>
+                <p class="price">220 SAR / day</p>
+                <a href="booking.html?car=Toyota%20Hilux" class="btn">Book this car</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="requirements" class="card dashed-border category-section">
+        <h2>Rental Requirements</h2>
+        <ol>
+            <li>Valid Saudi driving licence or international driving permit.</li>
+            <li>National ID, Iqama or passport.</li>
+            <li>Minimum age is 21 years (25 years for sports cars).</li>
+            <li>A credit card or Mada card for the deposit.</li>
+        </ol>
+        <p><a href="#top">Back to top &#8593;</a></p>
+    </section>
+</main>
+
+<!-- ===== master layout: footer ===== -->
+<footer class="site-footer">
+    <div class="container">
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cars.html">Our Cars</a></li>
+            <li><a href="booking.html">Booking</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#top">Back to top &#8593;</a></li>
+        </ul>
+        <p class="small-text" style="color:#c9d3de;">
+            &copy; <span id="year">2026</span> DriveEasy Car Rental, Jeddah. CPIS-358 project by
+            Abdullah Sayed Aljaghthami &amp; Alhasan Maan Shami.
+        </p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
