@@ -1,0 +1,143 @@
+using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
+/// <summary>
+/// Small helper class for all database work (ADO.NET with parameters to stop SQL injection).
+/// </summary>
+public static class Db
+{
+    public static string ConnectionString
+    {
+        get { return ConfigurationManager.ConnectionStrings["DriveEasyDB"].ConnectionString; }
+    }
+
+    // SELECT ... returns a DataTable
+    public static DataTable GetTable(string sql, params SqlParameter[] parameters)
+    {
+        using (SqlConnection con = new SqlConnection(ConnectionString))
+        using (SqlCommand cmd = new SqlCommand(sql, con))
+        {
+            cmd.Parameters.AddRange(parameters);
+            DataTable table = new DataTable();
+            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+            {
+                adapter.Fill(table);
+            }
+            return table;
+        }
+    }
+
+    // INSERT / UPDATE / DELETE ... returns the number of affected rows
+    public static int Execute(string sql, params SqlParameter[] parameters)
+    {
+        using (SqlConnection con = new SqlConnection(ConnectionString))
+        using (SqlCommand cmd = new SqlCommand(sql, con))
+        {
+            cmd.Parameters.AddRange(parameters);
+            con.Open();
+            return cmd.ExecuteNonQuery();
+        }
+    }
+
+    // returns the first column of the first row (COUNT, new id, ...)
+    public static object Scalar(string sql, params SqlParameter[] parameters)
+    {
+        using (SqlConnection con = new SqlConnection(ConnectionString))
+        using (SqlCommand cmd = new SqlCommand(sql, con))
+        {
+            cmd.Parameters.AddRange(parameters);
+            con.Open();
+            return cmd.ExecuteScalar();
+        }
+    }
+
+    public static SqlParameter P(string name, object value)
+    {
+        return new SqlParameter(name, value ?? DBNull.Value);
+    }
+
+    /// <summary>
+    /// Creates the database, the tables and the sample cars if they do not exist.
+    /// Called once from Global.asax when the application starts.
+    /// </summary>
+    public static void EnsureDatabase()
+    {
+        string master = ConfigurationManager.ConnectionStrings["MasterDB"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(master))
+        using (SqlCommand cmd = new SqlCommand("IF DB_ID('DriveEasyDB') IS NULL CREATE DATABASE DriveEasyDB;", con))
+        {
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        Execute(@"
+IF OBJECT_ID('dbo.Cars') IS NULL
+CREATE TABLE dbo.Cars (
+    CarId        INT IDENTITY(1,1) PRIMARY KEY,
+    Name         NVARCHAR(50)  NOT NULL,
+    ModelYear    INT           NOT NULL,
+    Category     NVARCHAR(20)  NOT NULL,
+    Seats        INT           NOT NULL,
+    Gear         NVARCHAR(20)  NOT NULL,
+    PricePerDay  DECIMAL(10,2) NOT NULL,
+    ImageFile    NVARCHAR(100) NOT NULL
+);
+
+IF OBJECT_ID('dbo.Users') IS NULL
+CREATE TABLE dbo.Users (
+    UserId       INT IDENTITY(1,1) PRIMARY KEY,
+    FullName     NVARCHAR(100) NOT NULL,
+    Email        NVARCHAR(100) NOT NULL UNIQUE,
+    Phone        NVARCHAR(10)  NOT NULL,
+    Username     NVARCHAR(20)  NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(64)  NOT NULL,
+    BirthDate    DATE          NOT NULL,
+    City         NVARCHAR(30)  NOT NULL,
+    Gender       NVARCHAR(10)  NOT NULL,
+    CreatedAt    DATETIME      NOT NULL DEFAULT GETDATE()
+);
+
+IF OBJECT_ID('dbo.Bookings') IS NULL
+CREATE TABLE dbo.Bookings (
+    BookingId     INT IDENTITY(1,1) PRIMARY KEY,
+    UserId        INT           NOT NULL REFERENCES dbo.Users(UserId),
+    CarId         INT           NOT NULL REFERENCES dbo.Cars(CarId),
+    Branch        NVARCHAR(30)  NOT NULL,
+    PickupDate    DATE          NOT NULL,
+    ReturnDate    DATE          NOT NULL,
+    Extras        NVARCHAR(100) NOT NULL DEFAULT '',
+    PaymentMethod NVARCHAR(20)  NOT NULL,
+    Notes         NVARCHAR(300) NULL,
+    TotalPrice    DECIMAL(10,2) NOT NULL,
+    CreatedAt     DATETIME      NOT NULL DEFAULT GETDATE()
+);
+
+IF OBJECT_ID('dbo.Feedback') IS NULL
+CREATE TABLE dbo.Feedback (
+    FeedbackId   INT IDENTITY(1,1) PRIMARY KEY,
+    Name         NVARCHAR(100) NOT NULL,
+    Email        NVARCHAR(100) NOT NULL,
+    Subject      NVARCHAR(30)  NOT NULL,
+    Rating       INT           NOT NULL,
+    Message      NVARCHAR(500) NOT NULL,
+    CreatedAt    DATETIME      NOT NULL DEFAULT GETDATE()
+);
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Cars)
+INSERT INTO dbo.Cars (Name, ModelYear, Category, Seats, Gear, PricePerDay, ImageFile) VALUES
+ (N'Toyota Camry',   2025, N'Sedan',  5, N'Automatic', 180, N'toyota-camry.svg'),
+ (N'Hyundai Accent', 2025, N'Sedan',  5, N'Automatic', 120, N'hyundai-accent.svg'),
+ (N'Nissan Patrol',  2024, N'SUV',    7, N'Automatic', 450, N'nissan-patrol.svg'),
+ (N'Kia Sportage',   2025, N'SUV',    5, N'Automatic', 260, N'kia-sportage.svg'),
+ (N'Ford Mustang',   2024, N'Sports', 4, N'Automatic', 550, N'ford-mustang.svg'),
+ (N'Toyota Hilux',   2025, N'Pickup', 5, N'Manual',    220, N'toyota-hilux.svg');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Feedback)
+INSERT INTO dbo.Feedback (Name, Email, Subject, Rating, Message) VALUES
+ (N'Saad', N'saad@example.com', N'Suggestion', 5, N'Booking took only three minutes and the car was very clean.'),
+ (N'Mona', N'mona@example.com', N'Booking',    4, N'Good prices and friendly staff at the airport branch.');
+");
+    }
+}
