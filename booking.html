@@ -16,7 +16,7 @@
             gap: 25px;
             align-items: flex-start;
         }
-        .booking-layout .form-box  {
+        .booking-layout .form-box {
             flex: 2 1 420px;
             margin: 0;
         }
@@ -39,6 +39,17 @@
             color: #f28c28;
         }
     </style>
+    <!-- embedded JavaScript: price list used by the booking calculation -->
+    <script>
+        var carPrices = {
+            "Toyota Camry": 180,
+            "Hyundai Accent": 120,
+            "Nissan Patrol": 450,
+            "Kia Sportage": 260,
+            "Ford Mustang": 550,
+            "Toyota Hilux": 220
+        };
+    </script>
 </head>
 <body id="top">
 
@@ -87,7 +98,7 @@
             <h2>Booking Details</h2>
             <div id="bookingMessage"></div>
 
-            <form id="bookingForm" action="#" method="post">
+            <form id="bookingForm" action="#" method="post" novalidate>
                 <fieldset>
                     <legend>Customer Information</legend>
                     <div class="form-row">
@@ -193,12 +204,11 @@
 
         <aside class="card summary-box shadow-box" id="summaryBox">
             <h2>Booking Summary</h2>
-            <ul>
-                <li>Choose a car and the dates.</li>
-                <li>Extras are charged per day.</li>
-                <li>Weekly rentals get 10% discount.</li>
+            <ul id="summaryList">
+                <li>Choose a car and the dates to see the price.</li>
             </ul>
-            <p class="small-text">The total price is confirmed by our staff by SMS.</p>
+            <p class="total-line">Total: <span id="totalPrice">0</span> SAR</p>
+            <p class="small-text">Weekly rentals (7 days or more) get 10% discount.</p>
         </aside>
     </div>
 </main>

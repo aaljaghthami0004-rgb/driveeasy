@@ -67,7 +67,7 @@
     <section class="card auth-box shadow-box">
         <h2>Welcome Back</h2>
         <div id="loginMessage"></div>
-        <form id="loginForm" action="#" method="post">
+        <form id="loginForm" action="#" method="post" novalidate>
             <div class="form-row">
                 <label for="loginUser">Username or Email *</label>
                 <input type="text" id="loginUser" name="loginUser" autocomplete="username" required>
@@ -79,6 +79,8 @@
                 <span class="error-msg" id="loginPasswordError"></span>
             </div>
             <div class="form-row">
+                <input type="checkbox" id="showPassword">
+                <label for="showPassword" class="inline-label">Show password</label>
                 <input type="checkbox" id="rememberMe" name="rememberMe">
                 <label for="rememberMe" class="inline-label">Remember me</label>
             </div>

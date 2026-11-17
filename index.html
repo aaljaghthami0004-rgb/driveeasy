@@ -20,6 +20,31 @@
             font-weight: bold;
             color: #ffd9b3;
         }
+        .slideshow {
+            position: relative;
+            text-align: center;
+        }
+        .slideshow img {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 10px;
+            border: 3px solid #f28c28;
+        }
+        .slide-controls button {
+            margin: 0 5px;
+        }
+        .dots {
+            margin-top: 10px;
+        }
+        .dot {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            margin: 0 4px;
+            border-radius: 50%;
+            background-color: #c9d1db;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body id="top">
@@ -185,6 +210,17 @@
 
     <section id="featured">
         <h2>Featured Cars</h2>
+        <!-- dynamic picture and text (changed by JavaScript) -->
+        <div class="card slideshow" id="slideshow">
+            <img id="slideImage" src="images/toyota-camry.svg" alt="Toyota Camry 2025">
+            <h3 id="slideTitle">Toyota Camry 2025</h3>
+            <p id="slideText">Comfortable family sedan, perfect for trips inside Jeddah. From 180 SAR per day.</p>
+            <div class="slide-controls">
+                <button type="button" class="btn btn-dark" id="prevSlide">&#8249; Previous</button>
+                <button type="button" class="btn btn-dark" id="nextSlide">Next &#8250;</button>
+            </div>
+            <div class="dots" id="slideDots"></div>
+        </div>
         <div class="grid">
             <div class="card car-card">
                 <span class="badge">Most Popular</span>

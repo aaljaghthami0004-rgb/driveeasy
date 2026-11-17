@@ -71,7 +71,7 @@
     <section class="card form-box shadow-box">
         <h2>Sign Up</h2>
         <div id="signupMessage"></div>
-        <form id="signupForm" action="#" method="post">
+        <form id="signupForm" action="#" method="post" novalidate>
             <fieldset>
                 <legend>Personal Information</legend>
                 <div class="form-row">
@@ -130,6 +130,8 @@
                 <div class="form-row">
                     <label for="suPassword">Password *</label>
                     <input type="password" id="suPassword" name="suPassword" autocomplete="new-password" required>
+                    <div class="strength-track"><div id="strengthBar"></div></div>
+                    <span id="strengthText"></span>
                     <span class="error-msg" id="suPasswordError"></span>
                 </div>
                 <div class="form-row">
