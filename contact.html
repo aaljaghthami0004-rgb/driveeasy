@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DriveEasy - online car rental in Jeddah. Compare cars, check prices and book online.">
+    <meta name="author" content="Abdullah Sayed Aljaghthami, Alhasan Maan Shami">
+    <title>DriveEasy Car Rental | Contact Us</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- internal CSS (only for this page) -->
+    <style>
+        .contact-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            align-items: flex-start;
+        }
+        .contact-layout > section {
+            flex: 1 1 400px;
+        }
+        #charCounter {
+            font-size: 13px;
+            color: #6b7785;
+        }
+        #feedbackList {
+            list-style: none;
+            margin: 0;
+        }
+        #feedbackList li {
+            background-color: #f7f9fb;
+            border-left: 4px solid #f28c28;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body id="top">
+
+<!-- ===== master layout: header and main menu (same on every page) ===== -->
+<header class="site-header">
+    <div class="container header-inner">
+        <img src="images/logo.svg" alt="DriveEasy Car Rental logo" class="logo-img" width="260" height="70" usemap="#logoMap">
+        <map name="logoMap">
+            <area shape="circle" coords="35,35,24" href="about.html" alt="About DriveEasy" title="About us">
+            <area shape="rect" coords="65,10,255,60" href="about.html" alt="About DriveEasy" title="About us">
+        </map>
+
+        <nav class="main-menu" aria-label="Main menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="cars.html">Our Cars &#9662;</a>
+                    <ul class="submenu">
+                        <li><a href="cars.html#sedan">Sedan Cars</a></li>
+                        <li><a href="cars.html#suv">SUV Cars</a></li>
+                        <li><a href="cars.html#sport">Sports Cars</a></li>
+                        <li><a href="cars.html#pickup">Pickup Trucks</a></li>
+                    </ul>
+                </li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="page-title">
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p style="margin:0;">We are happy to answer your questions and hear your feedback.</p>
+    </div>
+</section>
+
+<main class="container page-section">
+
+    <nav class="on-this-page" aria-label="On this page">
+        <strong>On this page:</strong>
+        <ul>
+            <li><a href="#branches">Our Branches</a></li>
+            <li><a href="#feedback">Send Feedback</a></li>
+        </ul>
+    </nav>
+
+    <section id="branches">
+        <h2>Our Branches</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Working Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Airport</td>
+                    <td>King Abdulaziz International Airport, North Terminal</td>
+                    <td>012 600 1111</td>
+                    <td>24 hours</td>
+                </tr>
+                <tr>
+                    <td>Al-Rawdah</td>
+                    <td>Prince Sultan Road, Al-Rawdah District</td>
+                    <td>012 600 2222</td>
+                    <td rowspan="2">8:00 AM &ndash; 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Al-Hamra</td>
+                    <td>Corniche Road, Al-Hamra District</td>
+                    <td>012 600 3333</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Email: <a href="mailto:info@driveeasy.sa">info@driveeasy.sa</a> &nbsp;|&nbsp; WhatsApp: 055 000 1234</p>
+    </section>
+
+    <div class="contact-layout">
+        <section id="feedback" class="card">
+            <h2>Send Us Your Feedback</h2>
+            <div id="feedbackMessage"></div>
+            <form id="feedbackForm" action="#" method="post">
+                <div class="form-row">
+                    <label for="fbName">Your Name *</label>
+                    <input type="text" id="fbName" name="fbName" required>
+                    <span class="error-msg" id="fbNameError"></span>
+                </div>
+                <div class="form-row">
+                    <label for="fbEmail">Email *</label>
+                    <input type="email" id="fbEmail" name="fbEmail" placeholder="name@example.com" required>
+                    <span class="error-msg" id="fbEmailError"></span>
+                </div>
+                <div class="form-row">
+                    <label for="fbSubject">Subject *</label>
+                    <select id="fbSubject" name="fbSubject" required>
+                        <option value="">-- Select a subject --</option>
+                        <option value="Booking">Question about a booking</option>
+                        <option value="Suggestion">Suggestion</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span class="error-msg" id="fbSubjectError"></span>
+                </div>
+                <div class="form-row">
+                    <label>How do you rate our service? *</label>
+                    <input type="radio" id="rate5" name="rating" value="5"><label for="rate5" class="inline-label">Excellent</label>
+                    <input type="radio" id="rate4" name="rating" value="4"><label for="rate4" class="inline-label">Good</label>
+                    <input type="radio" id="rate3" name="rating" value="3"><label for="rate3" class="inline-label">Average</label>
+                    <input type="radio" id="rate2" name="rating" value="2"><label for="rate2" class="inline-label">Poor</label>
+                    <span class="error-msg" id="ratingError"></span>
+                </div>
+                <div class="form-row">
+                    <label for="fbMessage">Message *</label>
+                    <textarea id="fbMessage" name="fbMessage" rows="5" maxlength="500" required></textarea>
+                    <span class="error-msg" id="fbMessageError"></span>
+                </div>
+                <button type="submit" class="btn">Send</button>
+                <button type="reset" class="btn btn-dark">Clear</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>What Customers Say</h2>
+            <ul id="feedbackList">
+                <li><strong>Saad</strong> (Excellent): Booking took only three minutes and the car was very clean.</li>
+                <li><strong>Mona</strong> (Good): Good prices and friendly staff at the airport branch.</li>
+            </ul>
+        </section>
+    </div>
+</main>
+
+<!-- ===== master layout: footer ===== -->
+<footer class="site-footer">
+    <div class="container">
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cars.html">Our Cars</a></li>
+            <li><a href="booking.html">Booking</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#top">Back to top &#8593;</a></li>
+        </ul>
+        <p class="small-text" style="color:#c9d3de;">
+            &copy; <span id="year">2026</span> DriveEasy Car Rental, Jeddah. CPIS-358 project by
+            Abdullah Sayed Aljaghthami &amp; Alhasan Maan Shami.
+        </p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

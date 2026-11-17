@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DriveEasy - online car rental in Jeddah. Compare cars, check prices and book online.">
+    <meta name="author" content="Abdullah Sayed Aljaghthami, Alhasan Maan Shami">
+    <title>DriveEasy Car Rental | Sign Up</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- internal CSS (only for this page) -->
+    <style>
+        .strength-track {
+            height: 8px;
+            background-color: #e3e8ee;
+            border-radius: 4px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        #strengthBar {
+            height: 100%;
+            width: 0;
+            background-color: #c0392b;
+        }
+        #strengthText {
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body id="top">
+
+<!-- ===== master layout: header and main menu (same on every page) ===== -->
+<header class="site-header">
+    <div class="container header-inner">
+        <img src="images/logo.svg" alt="DriveEasy Car Rental logo" class="logo-img" width="260" height="70" usemap="#logoMap">
+        <map name="logoMap">
+            <area shape="circle" coords="35,35,24" href="about.html" alt="About DriveEasy" title="About us">
+            <area shape="rect" coords="65,10,255,60" href="about.html" alt="About DriveEasy" title="About us">
+        </map>
+
+        <nav class="main-menu" aria-label="Main menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="cars.html">Our Cars &#9662;</a>
+                    <ul class="submenu">
+                        <li><a href="cars.html#sedan">Sedan Cars</a></li>
+                        <li><a href="cars.html#suv">SUV Cars</a></li>
+                        <li><a href="cars.html#sport">Sports Cars</a></li>
+                        <li><a href="cars.html#pickup">Pickup Trucks</a></li>
+                    </ul>
+                </li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="page-title">
+    <div class="container">
+        <h1>Create an Account</h1>
+        <p style="margin:0;">It is free and takes less than a minute.</p>
+    </div>
+</section>
+
+<main class="container page-section">
+    <section class="card form-box shadow-box">
+        <h2>Sign Up</h2>
+        <div id="signupMessage"></div>
+        <form id="signupForm" action="#" method="post">
+            <fieldset>
+                <legend>Personal Information</legend>
+                <div class="form-row">
+                    <label for="suName">Full Name *</label>
+                    <input type="text" id="suName" name="suName" required>
+                    <span class="error-msg" id="suNameError"></span>
+                </div>
+                <div class="two-cols">
+                    <div class="form-row">
+                        <label for="suEmail">Email *</label>
+                        <input type="email" id="suEmail" name="suEmail" placeholder="name@example.com" required>
+                        <span class="error-msg" id="suEmailError"></span>
+                    </div>
+                    <div class="form-row">
+                        <label for="suPhone">Mobile Number *</label>
+                        <input type="tel" id="suPhone" name="suPhone" placeholder="05XXXXXXXX" maxlength="10" required>
+                        <span class="error-msg" id="suPhoneError"></span>
+                    </div>
+                </div>
+                <div class="two-cols">
+                    <div class="form-row">
+                        <label for="suBirth">Date of Birth *</label>
+                        <input type="date" id="suBirth" name="suBirth" required>
+                        <span class="error-msg" id="suBirthError"></span>
+                    </div>
+                    <div class="form-row">
+                        <label for="suCity">City *</label>
+                        <select id="suCity" name="suCity" required>
+                            <option value="">-- Select a city --</option>
+                            <option value="Jeddah">Jeddah</option>
+                            <option value="Makkah">Makkah</option>
+                            <option value="Madinah">Madinah</option>
+                            <option value="Riyadh">Riyadh</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="error-msg" id="suCityError"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>Gender *</label>
+                    <input type="radio" id="genderMale" name="gender" value="Male">
+                    <label for="genderMale" class="inline-label">Male</label>
+                    <input type="radio" id="genderFemale" name="gender" value="Female">
+                    <label for="genderFemale" class="inline-label">Female</label>
+                    <span class="error-msg" id="genderError"></span>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Account Information</legend>
+                <div class="form-row">
+                    <label for="suUser">Username *</label>
+                    <input type="text" id="suUser" name="suUser" autocomplete="username" required>
+                    <span class="error-msg" id="suUserError"></span>
+                </div>
+                <div class="form-row">
+                    <label for="suPassword">Password *</label>
+                    <input type="password" id="suPassword" name="suPassword" autocomplete="new-password" required>
+                    <span class="error-msg" id="suPasswordError"></span>
+                </div>
+                <div class="form-row">
+                    <label for="suConfirm">Confirm Password *</label>
+                    <input type="password" id="suConfirm" name="suConfirm" autocomplete="new-password" required>
+                    <span class="error-msg" id="suConfirmError"></span>
+                </div>
+            </fieldset>
+
+            <div class="form-row">
+                <input type="checkbox" id="suTerms" name="suTerms" required>
+                <label for="suTerms" class="inline-label">I accept the <a href="about.html#policy">rental policy</a> *</label>
+                <span class="error-msg" id="suTermsError"></span>
+            </div>
+
+            <button type="submit" class="btn">Create Account</button>
+            <button type="reset" class="btn btn-dark">Clear</button>
+            <p class="mt">Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </section>
+</main>
+
+<!-- ===== master layout: footer ===== -->
+<footer class="site-footer">
+    <div class="container">
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cars.html">Our Cars</a></li>
+            <li><a href="booking.html">Booking</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#top">Back to top &#8593;</a></li>
+        </ul>
+        <p class="small-text" style="color:#c9d3de;">
+            &copy; <span id="year">2026</span> DriveEasy Car Rental, Jeddah. CPIS-358 project by
+            Abdullah Sayed Aljaghthami &amp; Alhasan Maan Shami.
+        </p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
