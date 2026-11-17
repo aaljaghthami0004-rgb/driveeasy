@@ -1,0 +1,85 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="DriveEasy - online car rental in Jeddah. Compare cars, check prices and book online." />
+    <meta name="author" content="Abdullah Sayed Aljaghthami, Alhasan Maan Shami" />
+    <title>DriveEasy Car Rental</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="stylesheet" href="css/style.css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body id="top">
+    <form id="mainForm" runat="server">
+
+        <!-- ===== master page: header and main menu ===== -->
+        <header class="site-header">
+            <div class="container header-inner">
+                <img src="images/logo.svg" alt="DriveEasy Car Rental logo" class="logo-img" width="260" height="70" usemap="#logoMap" />
+                <map name="logoMap">
+                    <area shape="circle" coords="35,35,24" href="About.aspx" alt="About DriveEasy" title="About us" />
+                    <area shape="rect" coords="65,10,255,60" href="About.aspx" alt="About DriveEasy" title="About us" />
+                </map>
+
+                <nav class="main-menu" aria-label="Main menu">
+                    <ul>
+                        <li><a href="Default.aspx">Home</a></li>
+                        <li>
+                            <a href="Cars.aspx">Our Cars &#9662;</a>
+                            <ul class="submenu">
+                                <li><a href="Cars.aspx?category=Sedan">Sedan Cars</a></li>
+                                <li><a href="Cars.aspx?category=SUV">SUV Cars</a></li>
+                                <li><a href="Cars.aspx?category=Sports">Sports Cars</a></li>
+                                <li><a href="Cars.aspx?category=Pickup">Pickup Trucks</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="Booking.aspx">Booking</a></li>
+                        <li><a href="About.aspx">About Us</a></li>
+                        <li><a href="Contact.aspx">Contact</a></li>
+
+                        <asp:PlaceHolder ID="phGuest" runat="server">
+                            <li><a href="Login.aspx">Login</a></li>
+                            <li><a href="Signup.aspx">Sign Up</a></li>
+                        </asp:PlaceHolder>
+
+                        <asp:PlaceHolder ID="phMember" runat="server" Visible="false">
+                            <li>
+                                <a href="MyBookings.aspx">Hi, <asp:Literal ID="litUserName" runat="server" /> &#9662;</a>
+                                <ul class="submenu">
+                                    <li><a href="MyBookings.aspx">My Bookings</a></li>
+                                    <li><a href="Logout.aspx">Logout</a></li>
+                                </ul>
+                            </li>
+                        </asp:PlaceHolder>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+
+        <!-- ===== master page: footer ===== -->
+        <footer class="site-footer">
+            <div class="container">
+                <ul class="footer-links">
+                    <li><a href="Default.aspx">Home</a></li>
+                    <li><a href="Cars.aspx">Our Cars</a></li>
+                    <li><a href="Booking.aspx">Booking</a></li>
+                    <li><a href="About.aspx">About Us</a></li>
+                    <li><a href="Contact.aspx">Contact</a></li>
+                    <li><a href="#top">Back to top &#8593;</a></li>
+                </ul>
+                <p class="small-text" style="color:#c9d3de;">
+                    &copy; <span id="year">2026</span> DriveEasy Car Rental, Jeddah. CPIS-358 project by
+                    Abdullah Sayed Aljaghthami &amp; Alhasan Maan Shami.
+                </p>
+            </div>
+        </footer>
+    </form>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
